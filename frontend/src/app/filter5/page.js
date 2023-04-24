@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import FilterDropdown from "@components/components/dropdowns/filterDropDown";
 import Table from "@components/components/table/table";
@@ -8,10 +8,10 @@ import Navbar from "@components/components/navbar/navbar";
 
 export default function Filter5() {
   const [data, setData] = useState([]);
-  const rangeValues = { min: 0, max: 1000 };
+  const rangeValues = { min: 1, max: 1000 };
   const [value, setValue] = useState(5);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const res = await axios.get(
         `http://localhost:5000/filters/filter5?limit=${value}`
@@ -20,11 +20,11 @@ export default function Filter5() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [value]);
 
   useEffect(() => {
     getData();
-  }, [value]);
+  }, [getData]);
   return (
     <main className="p-5">
       <Navbar />

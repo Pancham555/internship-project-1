@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import FilterDropdown from "@components/components/dropdowns/filterDropDown";
 import Table from "@components/components/table/table";
@@ -23,7 +23,7 @@ export default function Filter2() {
     }
   };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const res = await axios.get(
         `http://localhost:5000/filters/filter2?gender=${
@@ -34,12 +34,12 @@ export default function Filter2() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [loadLimit, selectedGender, value]);
   //
   useEffect(() => {
     getHeading();
     getData();
-  }, [loadLimit, selectedGender, value]);
+  }, [getData]);
   return (
     <main className="p-5">
       <Navbar />

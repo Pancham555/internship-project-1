@@ -14,12 +14,17 @@ router.get("/", async (req, res) => {
     const query = {};
 
     if (incomeThreshold) {
-      query.income = { $gte: parseInt(incomeThreshold) };
+      query.income = { $lte: parseInt(incomeThreshold) };
+    } else {
+      query.income = { $exists: true };
     }
 
     if (carList) {
       query.car = { $in: carList.split(", ") };
+    } else {
+      query.car = { $exists: true };
     }
+
     const users = await DataModel.find(query).limit(limit).lean();
     const data = users.map((user) => {
       const { _id, createdAt, updatedAt, __v, ...rest } = user;

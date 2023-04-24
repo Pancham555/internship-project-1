@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import FilterDropdown from "@components/components/dropdowns/filterDropDown";
 import Table from "@components/components/table/table";
@@ -32,7 +32,7 @@ export default function Filter1() {
     }
   };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const val = selectedTags.join(", ");
       const res = await axios.get(
@@ -42,13 +42,13 @@ export default function Filter1() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [loadLimit, selectedTags, value]);
 
   useEffect(() => {
     getHeading();
     getCars();
     getData();
-  }, [loadLimit, selectedTags, value]);
+  }, [getData]);
   return (
     <main className="p-5">
       <Navbar />
@@ -57,7 +57,7 @@ export default function Filter1() {
           max={rangeValues.max}
           min={rangeValues.min}
           step={0.1}
-          title="Income (in USD)"
+          title="Income (less than USD)"
           value={value}
           setValue={setValue}
         />

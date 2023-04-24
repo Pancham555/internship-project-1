@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import FilterDropdown from "@components/components/dropdowns/filterDropDown";
 import Table from "@components/components/table/table";
@@ -12,7 +12,7 @@ export default function Filter4() {
   const [headers, setHeaders] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [loadLimit, setLoadLimit] = useState(10);
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [selectedEmail, setSelectedEmail] = useState("Email with numbers");
   const [cars, setCars] = useState([]);
   const getHeading = async () => {
     try {
@@ -32,7 +32,7 @@ export default function Filter4() {
     }
   };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const val = selectedTags.join(", ");
       const valEmail = selectedEmail === "Email with numbers" ? 0 : 1;
@@ -43,13 +43,13 @@ export default function Filter4() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [loadLimit, selectedTags, selectedEmail]);
 
   useEffect(() => {
     getHeading();
     getCars();
     getData();
-  }, [loadLimit, selectedTags, selectedEmail]);
+  }, [getData]);
   return (
     <main className="p-5">
       <Navbar />

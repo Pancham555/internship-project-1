@@ -2,7 +2,7 @@
 import Navbar from "@components/components/navbar/navbar";
 import Table from "@components/components/table/table";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
@@ -15,7 +15,7 @@ export default function Home() {
       console.log(error);
     }
   };
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const res = await axios.get(
         `http://localhost:5000/users?limit=${loadLimit}`
@@ -24,12 +24,12 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [loadLimit]);
 
   useEffect(() => {
     getHeading();
     getData();
-  }, [loadLimit]);
+  }, [getData]);
   return (
     <main className="p-5">
       <Navbar />

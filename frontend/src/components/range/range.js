@@ -47,7 +47,9 @@ const Range = ({
         }
       `}</style>
       <div className="flex justify-between items-center mt-2 w-full gap-5">
-        <div className="text-xs font-medium text-gray-500 w-10">{min}</div>
+        <div className="text-xs font-medium text-gray-500 w-10 text-left">
+          {min}
+        </div>
         <input
           type="number"
           value={value}
@@ -57,7 +59,9 @@ const Range = ({
           max={max}
           className="range-value mx-2 text-center w-10"
         />
-        <div className="text-xs font-medium text-gray-500 w-10">{max}</div>
+        <div className="text-xs font-medium text-gray-500 w-10 text-right">
+          {max}
+        </div>
       </div>
       <div className="flex items-center justify-between mt-2 w-full">
         <div className="text-xs font-medium text-gray-500">Low</div>
